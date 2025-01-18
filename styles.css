@@ -1,0 +1,733 @@
+:root {
+    --primary-color: #6366F1;
+    --bg-color: #F8F9FE;
+    --card-bg: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #6B7280;
+    --section-padding: 2rem;
+    --card-padding: 1.5rem;
+    --border-radius: 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    font-size: 16px;
+}
+
+/* 导航栏样式 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--section-padding);
+    background: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 4rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-item i {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-item.active::after {
+    width: 80%;
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+    background: none;
+    transform: none;
+}
+
+.nav-item:hover {
+    color: var(--primary-color);
+}
+
+.nav-item:hover::after {
+    width: 80%;
+}
+
+/* 主要内容区域样式 */
+.main-container {
+    display: flex;
+    padding: 2rem var(--section-padding);
+    gap: var(--section-padding);
+    max-width: 90%;
+    margin: 2rem auto;
+    min-height: calc(100vh - 8rem);
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 8rem);
+    padding: var(--section-padding);
+    overflow: hidden;
+}
+
+.pdf-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+    max-width: 1000px;
+    max-height: 800px;
+    padding: 2rem;
+}
+
+.pdf-tool {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pdf-tool:hover {
+    transform: translateY(-5px);
+    text-decoration: none;
+}
+
+.tool-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.pdf-tool h3 {
+    color: var(--text-primary);
+    margin-bottom: calc(0.75rem * var(--scale-ratio));
+    font-size: calc(1.25rem * var(--scale-ratio));
+    font-weight: 600;
+}
+
+.pdf-tool p {
+    color: var(--text-secondary);
+    font-size: calc(0.875rem * var(--scale-ratio));
+    opacity: 0.8;
+}
+
+/* AI助手区域样式 */
+.ai-assistant {
+    width: 25%;
+    min-width: calc(300px * var(--scale-ratio));
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: calc(4rem + 2rem);
+    height: calc(100vh - 10rem);
+    margin-top: calc(2rem * var(--scale-ratio));
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.ai-assistant::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ai-assistant::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+.ai-assistant::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+    border-radius: 4px;
+}
+
+.ai-header {
+    padding: 2rem;
+    padding-top: 2.5rem;
+    border-bottom: 1px solid var(--bg-color);
+}
+
+.ai-header h3 {
+    color: var(--text-primary);
+    margin-bottom: calc(0.5rem * var(--scale-ratio));
+    font-size: calc(1.25rem * var(--scale-ratio));
+}
+
+.ai-header p {
+    color: var(--text-secondary);
+    font-size: calc(0.875rem * var(--scale-ratio));
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-input {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--bg-color);
+    border-radius: 0.75rem;
+    outline: none;
+    font-size: 0.875rem;
+}
+
+.send-btn {
+    padding: 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send-btn i {
+    font-size: 1rem;
+}
+
+.send-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.message {
+    margin: 0.75rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: calc(var(--border-radius) / 2);
+    max-width: 85%;
+    word-wrap: break-word;
+}
+
+.message.user {
+    background: var(--primary-color);
+    color: white;
+    align-self: flex-end;
+    margin-left: 15%;
+}
+
+.message.ai {
+    background: var(--bg-color);
+    color: var(--text-primary);
+    align-self: flex-start;
+    margin-right: 15%;
+}
+
+.message.error {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.ai-header .setting-item {
+    margin-top: 1rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--bg-color);
+}
+
+/* 添加响应式设计 */
+@media (max-width: 1024px) {
+    .main-container {
+        max-width: 95%;
+    }
+    
+    .feature-cards {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .ai-assistant {
+        width: 100%;
+        min-width: auto;
+        height: 50vh;
+        position: relative;
+        top: 0;
+    }
+}
+
+/* 页面容器和切换效果 */
+.page-container {
+    flex: 1;
+    position: relative;
+    margin-top: calc(2rem * var(--scale-ratio));
+}
+
+.page {
+    display: none;  /* 默认隐藏所有页面 */
+    width: 100%;
+    height: 100%;
+}
+
+.page.active {
+    display: block;  /* 只显示激活的页面 */
+}
+
+/* 词库页面样式 */
+.dictionary-container {
+    padding: 2rem;
+}
+
+.word-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.category-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* 进度页面样式 */
+.progress-container {
+    padding: 2rem;
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin: 1rem 0;
+}
+
+/* 设置页面样式 */
+.settings-container {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.settings-group {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--bg-color);
+}
+
+/* 开关按钮样式 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* 添加最小和最大缩放限制 */
+@media (max-width: 1280px) {
+    :root {
+        --scale-ratio: calc(1280px / var(--base-width));
+    }
+}
+
+@media (min-width: 2560px) {
+    :root {
+        --scale-ratio: calc(2560px / var(--base-width));
+    }
+}
+
+/* 工具页面样式 */
+.tool-pages {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    z-index: 1000;
+    display: none;
+}
+
+.tool-page {
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.tool-page.active {
+    display: flex;
+}
+
+.tool-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background: var(--card-bg);
+}
+
+.tool-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* 文件上传区域样式 */
+.file-upload {
+    padding: 2rem;
+}
+
+.upload-area {
+    border: 2px dashed var(--text-secondary);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--primary-color);
+    background: var(--card-bg);
+}
+
+.upload-area i {
+    font-size: 3rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+/* 分析结果样式 */
+.analysis-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.analysis-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.difficulty-meter {
+    height: 1rem;
+    background: var(--bg-color);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.meter-fill {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+/* 阅读辅助样式 */
+.reading-area {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    height: 100%;
+}
+
+.pdf-viewer {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+}
+
+.word-helper {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+}
+
+/* PDF工具选项样式 */
+.pdf-tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.tool-option {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.tool-option:hover {
+    transform: translateY(-5px);
+}
+
+.tool-option i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* 添加生词列表样式 */
+.word-item {
+    background: var(--card-bg);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.word-info {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.word-translation {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.word-context {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* 添加PDF查看器样式 */
+.pdf-viewer {
+    height: 100%;
+    overflow: auto;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+/* 添加词义展示样式 */
+.word-details {
+    padding: 1rem;
+}
+
+.translation {
+    margin: 0.5rem 0;
+}
+
+.pos {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.example {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+}
+
+.tool-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tool-button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+    color: white;
+}
+
+.memory-curve-container {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.memory-curve-container h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.memory-curve-container canvas {
+    width: 100% !important;
+    height: 400px !important;
+} 

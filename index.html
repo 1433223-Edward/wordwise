@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordMaster AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/streamlit-component-lib@^1.4.0/dist/streamlit.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">WordMaster AI</div>
+        <div class="nav-links">
+            <a href="#home" class="nav-item active">
+                <i class="fas fa-home"></i>
+                首页
+            </a>
+            <a href="#dictionary" class="nav-item">
+                <i class="fas fa-book"></i>
+                我的词库
+            </a>
+            <a href="#progress" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                学习进度
+            </a>
+            <a href="#settings" class="nav-item">
+                <i class="fas fa-cog"></i>
+                设置
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="main-container">
+        <!-- 页面容器 -->
+        <div class="page-container">
+            <!-- 首页 -->
+            <div class="content-area page active" id="home">
+                <div class="pdf-tools-grid">
+                    <a href="http://localhost:8503" class="pdf-tool">
+                        <div class="tool-icon">
+                            <i class="fas fa-highlighter"></i>
+                        </div>
+                        <h3>生词提取</h3>
+                        <p>智能识别文档中的生词</p>
+                    </a>
+                    <div class="pdf-tool" onclick="openToolPage('analysis')">
+                        <div class="tool-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>难度分析</h3>
+                        <p>分析文档整体难度</p>
+                    </div>
+                    <div class="pdf-tool" onclick="openToolPage('reading')">
+                        <div class="tool-icon">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <h3>阅读辅助</h3>
+                        <p>提供阅读理解帮助</p>
+                    </div>
+                    <div class="pdf-tool" onclick="openToolPage('pdftools')">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>PDF工具</h3>
+                        <p>PDF文档处理工具</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 词库页面 -->
+            <div class="content-area page" id="dictionary">
+                <div class="dictionary-container">
+                    <div class="word-categories">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>考试词汇</h3>
+                            <p>1000词</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3>商务词汇</h3>
+                            <p>500词</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3>文学词汇</h3>
+                            <p>800词</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <h3>添加词库</h3>
+                            <p>自定义词库</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 学习进度页面 -->
+            <div class="content-area page" id="progress">
+                <div class="progress-container">
+                    <div class="progress-stats">
+                        <div class="stat-card">
+                            <h3>已学单词</h3>
+                            <div class="stat-number">1,234</div>
+                            <div class="stat-chart">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>学习天数</h3>
+                            <div class="stat-number">45</div>
+                            <div class="stat-chart">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>掌握程度</h3>
+                            <div class="stat-number">85%</div>
+                            <div class="stat-chart">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 添加记忆曲线图表容器 -->
+                    <div class="memory-curve-container">
+                        <h3>记忆曲线分析</h3>
+                        <canvas id="memoryCurveChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 设置页面 -->
+            <div class="content-area page" id="settings">
+                <div class="settings-container">
+                    <div class="settings-group">
+                        <h3>个人设置</h3>
+                        <div class="setting-item">
+                            <span>深色模式</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>每日学习目标</span>
+                            <select>
+                                <option>20词</option>
+                                <option>50词</option>
+                                <option>100词</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span>提醒时间</span>
+                            <input type="time" value="09:00">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧AI助手区域 -->
+        <div class="ai-assistant">
+            <div class="ai-header">
+                <h3>AI 助手</h3>
+                <p>RAG 模式: 已禁用</p>
+                <div class="setting-item">
+                    <span>启用 RAG</span>
+                    <label class="switch">
+                        <input type="checkbox" id="rag-switch" onchange="updateRagMode(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- 初始欢迎消息 -->
+                    <div class="message ai">
+                        你好！我是你的AI助手，有什么我可以帮你的吗？
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="输入您的问题...">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加工具页面 -->
+    <div class="tool-pages">
+        <!-- 生词提取页面 -->
+        <div class="tool-page" id="extract-page">
+            <div class="tool-header">
+                <button class="back-btn" onclick="closeToolPage()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>生词提取</h2>
+            </div>
+            <div class="tool-content">
+                <div class="file-upload">
+                    <input type="file" id="pdf-upload" accept=".pdf" hidden>
+                    <label for="pdf-upload" class="upload-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>点击或拖拽PDF文件到这里</p>
+                    </label>
+                </div>
+                <div class="extracted-words" style="display: none;">
+                    <div class="word-list-header">
+                        <h3>提取的生词</h3>
+                        <button class="export-btn">
+                            <i class="fas fa-download"></i>
+                            导出生词表
+                        </button>
+                    </div>
+                    <div class="word-list">
+                        <!-- 生词列表将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 难度分析页面 -->
+        <div class="tool-page" id="analysis-page">
+            <div class="tool-header">
+                <button class="back-btn" onclick="closeToolPage()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>难度分析</h2>
+            </div>
+            <div class="tool-content">
+                <div class="analysis-results">
+                    <div class="analysis-card">
+                        <h3>词汇难度</h3>
+                        <div class="difficulty-meter">
+                            <div class="meter-fill" style="width: 75%"></div>
+                        </div>
+                        <p>中等偏上</p>
+                    </div>
+                    <div class="analysis-card">
+                        <h3>生词比例</h3>
+                        <div class="pie-chart">
+                            <!-- 这里可以添加图表 -->
+                        </div>
+                    </div>
+                    <div class="analysis-card">
+                        <h3>建议</h3>
+                        <ul class="suggestions">
+                            <li>建议先学习基础词汇</li>
+                            <li>可以分段阅读</li>
+                            <li>推荐使用阅读辅助工具</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 阅读辅助页面 -->
+        <div class="tool-page" id="reading-page">
+            <div class="tool-header">
+                <button class="back-btn" onclick="closeToolPage()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>阅读辅助</h2>
+            </div>
+            <div class="tool-content">
+                <div class="reading-area">
+                    <div class="pdf-viewer">
+                        <!-- PDF查看器将在这里显示 -->
+                    </div>
+                    <div class="word-helper">
+                        <div class="selected-word">
+                            <h3>当前选中词</h3>
+                            <div class="word-details">
+                                <p class="word">选中文本中的单词查看释义</p>
+                                <div class="translations"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF工具页面 -->
+        <div class="tool-page" id="pdftools-page">
+            <div class="tool-header">
+                <button class="back-btn" onclick="closeToolPage()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>PDF工具</h2>
+            </div>
+            <div class="tool-content">
+                <div class="pdf-tools">
+                    <div class="tool-option">
+                        <i class="fas fa-crop"></i>
+                        <h3>裁剪页面</h3>
+                    </div>
+                    <div class="tool-option">
+                        <i class="fas fa-object-group"></i>
+                        <h3>提取页面</h3>
+                    </div>
+                    <div class="tool-option">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <h3>压缩PDF</h3>
+                    </div>
+                    <div class="tool-option">
+                        <i class="fas fa-file-export"></i>
+                        <h3>格式转换</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function initializeChat() {
+            // 连接Streamlit后端
+            const streamlit = window.parent.Streamlit;
+            
+            // 发送消息函数
+            async function sendMessage() {
+                const input = document.querySelector('.chat-input input');
+                const message = input.value;
+                
+                // 调用Streamlit后端
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                // 更新聊天界面
+                const chatMessages = document.querySelector('.chat-messages');
+                chatMessages.innerHTML += `
+                    <div class="message user">${message}</div>
+                    <div class="message ai">${data.response}</div>
+                `;
+                
+                input.value = '';
+            }
+            
+            // 绑定发送按钮事件
+            document.querySelector('.send-btn').addEventListener('click', sendMessage);
+        }
+
+        function initializePageTransitions() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const pages = document.querySelectorAll('.page');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // 添加active类到当前点击的项目
+                    item.classList.add('active');
+                    
+                    // 获取目标页面ID
+                    const targetId = item.getAttribute('href').substring(1);
+                    
+                    // 处理页面切换
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                        if (page.id === targetId) {
+                            page.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        function openToolPage(toolId) {
+            const toolPages = document.querySelector('.tool-pages');
+            const targetPage = document.getElementById(`${toolId}-page`);
+            
+            toolPages.style.display = 'block';
+            document.querySelectorAll('.tool-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            targetPage.classList.add('active');
+        }
+
+        function closeToolPage() {
+            const toolPages = document.querySelector('.tool-pages');
+            toolPages.style.display = 'none';
+        }
+
+        // 添加文件拖放功能
+        function initializeFileUpload() {
+            const uploadArea = document.querySelector('.upload-area');
+            const fileInput = document.getElementById('pdf-upload');
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type === 'application/pdf') {
+                    handleFile(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleFile(file) {
+            const formData = new FormData();
+            formData.append('pdf', file);
+            
+            // 显示加载状态
+            const uploadArea = document.querySelector('.upload-area');
+            uploadArea.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>正在处理文件...</p>
+            `;
+
+            // 发送文件到后端处理
+            fetch('/api/extract-words', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 显示提取的生词
+                const extractedWords = document.querySelector('.extracted-words');
+                const wordList = document.querySelector('.word-list');
+                
+                wordList.innerHTML = data.words.map(word => `
+                    <div class="word-item">
+                        <div class="word-text">${word.text}</div>
+                        <div class="word-info">
+                            <div class="word-translation">${word.translation}</div>
+                            <div class="word-context">${word.context}</div>
+                        </div>
+                        <button class="add-to-vocab" onclick="addToVocabulary('${word.text}')">
+                            <i class="fas fa-plus"></i>
+                            添加到词库
+                        </button>
+                    </div>
+                `).join('');
+                
+                extractedWords.style.display = 'block';
+                uploadArea.style.display = 'none';
+            })
+            .catch(error => {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>处理失败，请重试</p>
+                `;
+            });
+        }
+
+        // 添加到词库功能
+        function addToVocabulary(word) {
+            fetch('/api/add-to-vocabulary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ word })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('添加成功');
+                }
+            });
+        }
+
+        // 添加难度分析功能
+        function analyzePDF(file) {
+            const formData = new FormData();
+            formData.append('pdf', file);
+
+            fetch('/api/analyze-pdf', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 更新难度指标
+                document.querySelector('.meter-fill').style.width = `${data.difficulty}%`;
+                
+                // 更新词汇分布图表
+                const pieChart = document.querySelector('.pie-chart');
+                renderPieChart(pieChart, data.wordDistribution);
+                
+                // 更新建议列表
+                const suggestions = document.querySelector('.suggestions');
+                suggestions.innerHTML = data.suggestions.map(suggestion => 
+                    `<li>${suggestion}</li>`
+                ).join('');
+            });
+        }
+
+        // 添加图表渲染功能
+        function renderPieChart(container, data) {
+            // 这里可以使用Chart.js或其他图表库
+            const chart = new Chart(container, {
+                type: 'pie',
+                data: {
+                    labels: ['已掌握', '生词', '熟悉词汇'],
+                    datasets: [{
+                        data: [data.mastered, data.new, data.familiar],
+                        backgroundColor: ['#4CAF50', '#F44336', '#2196F3']
+                    }]
+                }
+            });
+        }
+
+        // 添加阅读辅助功能
+        function initializeReader() {
+            const pdfViewer = document.querySelector('.pdf-viewer');
+            const wordDetails = document.querySelector('.word-details');
+            
+            // 初始化PDF查看器
+            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                renderPDF(pdf, pdfViewer);
+            });
+            
+            // 添加文本选择事件
+            pdfViewer.addEventListener('mouseup', () => {
+                const selectedText = window.getSelection().toString().trim();
+                if (selectedText) {
+                    lookupWord(selectedText);
+                }
+            });
+        }
+
+        // 查词功能
+        function lookupWord(word) {
+            fetch(`/api/lookup-word?word=${encodeURIComponent(word)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const wordDetails = document.querySelector('.word-details');
+                    wordDetails.innerHTML = `
+                        <p class="word">${data.word}</p>
+                        <div class="translations">
+                            ${data.translations.map(trans => `
+                                <div class="translation">
+                                    <span class="pos">${trans.pos}</span>
+                                    <span class="meaning">${trans.meaning}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="examples">
+                            ${data.examples.map(example => `
+                                <div class="example">
+                                    <p>${example.en}</p>
+                                    <p>${example.zh}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                });
+        }
+
+        // 添加PDF工具功能
+        const pdfTools = {
+            // 裁剪页面
+            crop: function(file) {
+                const cropper = new PDFCropper(file, {
+                    onCrop: (croppedFile) => {
+                        downloadPDF(croppedFile, 'cropped.pdf');
+                    }
+                });
+            },
+            
+            // 提取页面
+            extract: function(file) {
+                const pageSelector = new PageSelector(file, {
+                    onSelect: (pages) => {
+                        extractPages(file, pages).then(newPdf => {
+                            downloadPDF(newPdf, 'extracted.pdf');
+                        });
+                    }
+                });
+            },
+            
+            // 压缩PDF
+            compress: function(file) {
+                compressPDF(file, {
+                    quality: 'medium'
+                }).then(compressedFile => {
+                    downloadPDF(compressedFile, 'compressed.pdf');
+                });
+            },
+            
+            // 格式转换
+            convert: function(file, format) {
+                convertPDF(file, format).then(convertedFile => {
+                    download(convertedFile, `converted.${format}`);
+                });
+            }
+        };
+
+        // 初始化PDF工具
+        function initializePDFTools() {
+            document.querySelectorAll('.tool-option').forEach(tool => {
+                tool.addEventListener('click', () => {
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = '.pdf';
+                    fileInput.onchange = (e) => {
+                        const file = e.target.files[0];
+                        const toolType = tool.getAttribute('data-tool');
+                        pdfTools[toolType](file);
+                    };
+                    fileInput.click();
+                });
+            });
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', () => {
+            initializeChat();
+            initializePageTransitions();
+            initializeFileUpload();
+            initializePDFTools();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatInput = document.getElementById('chat-input');
+            
+            // 添加回车键发送功能
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+
+        async function sendMessage() {
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+
+            // 显示用户消息
+            chatMessages.innerHTML += `
+                <div class="message user">${message}</div>
+            `;
+
+            // 清空输入框
+            chatInput.value = '';
+            
+            // 获取RAG模式状态
+            const ragEnabled = document.getElementById('rag-switch').checked;
+
+            try {
+                // 修改API调用地址为正确的端口
+                const response = await fetch(`http://localhost:8504/api/chat?rag=${ragEnabled ? 'enabled' : 'disabled'}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: message,
+                        chat_history: []
+                    })
+                });
+
+                const data = await response.json();
+                
+                // 显示AI回复
+                if (data.success) {
+                    chatMessages.innerHTML += `
+                        <div class="message ai">${data.answer}</div>
+                    `;
+                } else {
+                    throw new Error('API response indicates failure');
+                }
+
+            } catch (error) {
+                console.error('Chat error:', error);
+                chatMessages.innerHTML += `
+                    <div class="message error">抱歉，发生了错误，请稍后重试。</div>
+                `;
+            }
+
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // RAG模式切换功能
+        function updateRagMode(enabled) {
+            const statusText = document.querySelector('.ai-header p');
+            statusText.textContent = `RAG 模式: ${enabled ? '已启用' : '已禁用'}`;
+        }
+
+        // 初始化记忆曲线图表
+        function initializeMemoryCurve() {
+            const ctx = document.getElementById('memoryCurveChart').getContext('2d');
+            
+            // 生成蒙特卡洛模拟的记忆曲线数据
+            const days = Array.from({length: 30}, (_, i) => i + 1);
+            const memoryCurve = days.map(day => {
+                // 艾宾浩斯遗忘曲线公式: R = e^(-t/S), 其中S是相对记忆强度
+                const baseRetention = Math.exp(-day / 10);
+                // 添加随机波动模拟实际学习情况
+                const randomFactor = 0.1 * (Math.random() - 0.5);
+                return (baseRetention + randomFactor) * 100;
+            });
+
+            // 创建图表
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [{
+                        label: '记忆保持率 (%)',
+                        data: memoryCurve,
+                        borderColor: '#6366F1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '30天记忆曲线模拟'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: '天数'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: '记忆保持率 (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // 在页面切换时初始化图表
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.getAttribute('href') === '#progress') {
+                    // 延迟一帧等待DOM更新
+                    requestAnimationFrame(() => {
+                        initializeMemoryCurve();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

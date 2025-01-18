@@ -1,0 +1,9 @@
+*
+!*.py
+!CET_4_6_edited.txt
+!COCA_20000.txt
+!nltk_data
+!requirements.txt
+!images/*
+!front-end/*
+front-end/node_modules/*
